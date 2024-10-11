@@ -82,6 +82,8 @@ import (
 	"strings"
 )
 
+var DefaultClient = new(http.Client)
+
 // NewWS2Client returns a new instance of WS2Client. Please provide meaningful
 // information about your application as described at
 // https://musicbrainz.org/doc/XML_Web_Service/Rate_Limiting#Provide_meaningful_User-Agent_strings
@@ -110,6 +112,9 @@ type WS2Client struct {
 func (c *WS2Client) getRequest(data interface{}, params url.Values, endpoint string) error {
 
 	client := &http.Client{}
+	if DefaultClient != nil {
+		client = DefaultClient
+	}
 
 	defaultRedirectLimit := 30
 
